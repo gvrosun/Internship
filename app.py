@@ -34,12 +34,17 @@ def index():
 
 @app.route('/reset')
 def reset():
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()
     return redirect(url_for('index'))
 
 
 @app.route('/blog', methods=['GET', 'POST'])
 def blog():
     form = StoredForm()
+    data = Comments.query.all()
     if form.validate_on_submit():
         name = form.name.data
         message = form.message.data
@@ -48,7 +53,12 @@ def blog():
         db.session.commit()
         return redirect(url_for('blog'))
 
-    return render_template('blog.html', form=form)
+    return render_template('blog.html', form=form, data=data)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html')
 
 
 if __name__ == '__main__':
