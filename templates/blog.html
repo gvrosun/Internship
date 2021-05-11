@@ -31,10 +31,12 @@
               <div class="row gy-4">
                 <div class="col-md-12">
                     {{ form.hidden_tag() }}
+                    <strong>{{ form.name.label }}</strong>
                     {{ form.name(class="form-control") }}
                 </div>
                 <div class="col-md-12">
                     {{ form.hidden_tag() }}
+                    <strong>{{ form.message.label }}</strong>
                     {{ form.message(class="form-control") }}
                 </div>
                 <div class="col-md-12 text-center">

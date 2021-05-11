@@ -48,9 +48,10 @@ def blog():
     if form.validate_on_submit():
         name = form.name.data
         message = form.message.data
-        new_data = Comments(name, message)
-        db.session.add(new_data)
-        db.session.commit()
+        if name.isalpha():
+            new_data = Comments(name, message)
+            db.session.add(new_data)
+            db.session.commit()
         return redirect(url_for('blog'))
 
     return render_template('blog.html', form=form, data=data)
